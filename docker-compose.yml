@@ -30,7 +30,8 @@ services:
       LINE_CHANNEL_TOKEN: ${LINE_CHANNEL_TOKEN:?LINE_CHANNEL_TOKEN is required}
       LINE_CHANNEL_SECRET: ${LINE_CHANNEL_SECRET:?LINE_CHANNEL_SECRET is required}
     ports:
-      - "8080:8080"
+      # 只綁定本機，對外一律經由 Nginx（HTTPS）；Docker 開放的 port 會繞過 ufw 防火牆
+      - "127.0.0.1:8080:8080"
 
 volumes:
   postgres-data:
