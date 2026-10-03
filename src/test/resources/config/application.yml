@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:clinic;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+
+clinic:
+  polling:
+    enabled: false
+
+line:
+  bot:
+    channel-token: test-token
+    channel-secret: test-secret

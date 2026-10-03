@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-clinic}
+      POSTGRES_USER: ${DB_USERNAME:-clinic}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      TZ: Asia/Taipei
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-clinic}
+      DB_USERNAME: ${DB_USERNAME:-clinic}
+      DB_PASSWORD: ${DB_PASSWORD}
+      LINE_CHANNEL_TOKEN: ${LINE_CHANNEL_TOKEN:?LINE_CHANNEL_TOKEN is required}
+      LINE_CHANNEL_SECRET: ${LINE_CHANNEL_SECRET:?LINE_CHANNEL_SECRET is required}
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:
