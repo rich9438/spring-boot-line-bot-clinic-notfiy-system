@@ -31,7 +31,7 @@ class FlexSampleExporter {
                 .enable(SerializationFeature.INDENT_OUTPUT);
         Path output = Path.of(dir);
         Files.createDirectories(output);
-        for (Map.Entry<String, List<Message>> sample : FlexSamples.all().entrySet()) {
+        for (Map.Entry<String, List<Message>> sample : FlexSamples.all(FlexSamples.sampleFactory()).entrySet()) {
             // 以 SDK 實際送出的 PushMessageRequest 序列化，才會帶上每則訊息的 "type"
             PushMessageRequest body = new PushMessageRequest(USER_ID_PLACEHOLDER, sample.getValue(), null, null);
             Files.writeString(output.resolve(sample.getKey() + ".json"),

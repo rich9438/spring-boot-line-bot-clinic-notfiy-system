@@ -86,7 +86,7 @@ public class XmlRoomStatusParser {
         return nodes.getLength() == 0 ? null : (Element) nodes.item(0);
     }
 
-    static byte[] stripBom(byte[] content) {
+    public static byte[] stripBom(byte[] content) {
         if (content.length >= 3
                 && (content[0] & 0xFF) == 0xEF && (content[1] & 0xFF) == 0xBB && (content[2] & 0xFF) == 0xBF) {
             byte[] stripped = new byte[content.length - 3];

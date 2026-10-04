@@ -20,7 +20,7 @@ class MessageFactoryTest {
 
     @Test
     void everyCardIsFlexWithinLineLimits() throws Exception {
-        for (Map.Entry<String, List<Message>> sample : FlexSamples.all().entrySet()) {
+        for (Map.Entry<String, List<Message>> sample : FlexSamples.all(FlexSamples.sampleFactory()).entrySet()) {
             assertThat(sample.getValue()).as(sample.getKey()).hasSizeBetween(1, 5);
             for (Message message : sample.getValue()) {
                 assertThat(message).as(sample.getKey()).isInstanceOf(FlexMessage.class);
@@ -41,7 +41,7 @@ class MessageFactoryTest {
 
     @Test
     void roomsCarouselHasOneCardPerRoomAndTrackButtonOnlyInSession() throws Exception {
-        Message rooms = FlexSamples.all().get("11-rooms").getFirst();
+        Message rooms = FlexSamples.all(FlexSamples.sampleFactory()).get("11-rooms").getFirst();
 
         JsonNode json = objectMapper.valueToTree(rooms);
 
@@ -58,14 +58,14 @@ class MessageFactoryTest {
 
     @Test
     void progressCardShowsRemainingAndEta() throws Exception {
-        String json = objectMapper.writeValueAsString(FlexSamples.all().get("04-progress").getFirst());
+        String json = objectMapper.writeValueAsString(FlexSamples.all(FlexSamples.sampleFactory()).get("04-progress").getFirst());
 
         assertThat(json).contains("即將輪到您看診", "目前叫號", "53", "56", "3 位", "約 8 分鐘", "#E67E22");
     }
 
     @Test
     void thresholdSettingsCardHasFillInAndResetButtons() throws Exception {
-        String json = objectMapper.writeValueAsString(FlexSamples.all().get("13-threshold-settings").getFirst());
+        String json = objectMapper.writeValueAsString(FlexSamples.all(FlexSamples.sampleFactory()).get("13-threshold-settings").getFirst());
 
         assertThat(json)
                 .contains("通知設定", "自訂", "剩 15 位", "剩 8 位", "剩 3 位", "到號")

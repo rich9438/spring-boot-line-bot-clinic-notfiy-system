@@ -71,6 +71,12 @@
             <artifactId>line-bot-spring-boot-handler</artifactId>
             <version>${line-bot-sdk.version}</version>
         </dependency>
+        <!-- 後台 Channel 的 Webhook 自行驗證簽章與解析事件 -->
+        <dependency>
+            <groupId>com.linecorp.bot</groupId>
+            <artifactId>line-bot-parser</artifactId>
+            <version>${line-bot-sdk.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,6 +100,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- 產生 META-INF/build-info.properties，後台「狀態」顯示版本 -->
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

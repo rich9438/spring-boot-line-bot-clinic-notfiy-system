@@ -29,11 +29,11 @@ import com.linecorp.bot.messaging.model.PostbackAction;
  * └──────────────────────┘
  * </pre>
  */
-final class FlexParts {
+public final class FlexParts {
 
-    static final String TEXT = "#2C3E50";
-    static final String LABEL = "#8A9499";
-    static final String PANEL = "#F2F5F7";
+    public static final String TEXT = "#2C3E50";
+    public static final String LABEL = "#8A9499";
+    public static final String PANEL = "#F2F5F7";
 
     private FlexParts() {
     }
@@ -41,30 +41,30 @@ final class FlexParts {
     /**
      * 卡片狀態色：資訊（藍）、即將輪到（橘）、到號（綠）、警示（紅）、無作用（灰）。
      */
-    enum Tone {
+    public enum Tone {
         INFO("#2E86C1"),
         PROGRESS("#E67E22"),
         ARRIVED("#27AE60"),
         ALERT("#C0392B"),
         NEUTRAL("#7F8C8D");
 
-        final String color;
+        public final String color;
 
         Tone(String color) {
             this.color = color;
         }
     }
 
-    static FlexMessage message(String altText, FlexContainer container) {
+    public static FlexMessage message(String altText, FlexContainer container) {
         return new FlexMessage(altText, container);
     }
 
-    static FlexBubble bubble(Tone tone, String title, String subtitle, List<FlexComponent> body,
+    public static FlexBubble bubble(Tone tone, String title, String subtitle, List<FlexComponent> body,
             List<FlexComponent> footerButtons) {
         return bubble(tone, title, subtitle, body, footerButtons, null);
     }
 
-    static FlexBubble bubble(Tone tone, String title, String subtitle, List<FlexComponent> body,
+    public static FlexBubble bubble(Tone tone, String title, String subtitle, List<FlexComponent> body,
             List<FlexComponent> footerButtons, FlexBubble.Size size) {
         FlexBubble.Builder builder = new FlexBubble.Builder()
                 .header(header(tone, title, subtitle))
@@ -100,7 +100,7 @@ final class FlexParts {
     }
 
     /** 診別標題，例：「二診」＋「婦產科 吳瑞聰」 */
-    static FlexComponent roomTitle(String roomName, String info) {
+    public static FlexComponent roomTitle(String roomName, String info) {
         List<FlexComponent> contents = new ArrayList<>();
         contents.add(new FlexText.Builder().text(roomName).size("xxl").weight(FlexText.Weight.BOLD).color(TEXT)
                 .flex(0).build());
@@ -112,7 +112,7 @@ final class FlexParts {
     }
 
     /** 「目前叫號 / 您的號碼」並排的大號碼面板 */
-    static FlexComponent numberPanel(String currentValue, Tone currentTone, int targetNumber) {
+    public static FlexComponent numberPanel(String currentValue, Tone currentTone, int targetNumber) {
         return new FlexBox.Builder(FlexBox.Layout.HORIZONTAL, List.of(
                 numberCell("目前叫號", currentValue, currentTone.color),
                 new FlexSeparator(null, "#DDE3E7"),
@@ -133,7 +133,7 @@ final class FlexParts {
     }
 
     /** 置中的大字，例：到號卡片的「56 號」、診間卡片的「未看診」 */
-    static FlexComponent bigCenter(String label, String value, String color) {
+    public static FlexComponent bigCenter(String label, String value, String color) {
         List<FlexComponent> contents = new ArrayList<>();
         if (label != null) {
             contents.add(new FlexText.Builder().text(label).size("xs").color(LABEL).align(FlexText.Align.CENTER)
@@ -148,11 +148,11 @@ final class FlexParts {
                 .build();
     }
 
-    static FlexComponent row(String label, String value) {
+    public static FlexComponent row(String label, String value) {
         return row(label, value, TEXT);
     }
 
-    static FlexComponent row(String label, String value, String valueColor) {
+    public static FlexComponent row(String label, String value, String valueColor) {
         return new FlexBox.Builder(FlexBox.Layout.BASELINE, List.of(
                 new FlexText.Builder().text(label).size("sm").color(LABEL).flex(2).build(),
                 new FlexText.Builder().text(value).size("md").weight(FlexText.Weight.BOLD).color(valueColor)
@@ -160,20 +160,20 @@ final class FlexParts {
                 .build();
     }
 
-    static FlexComponent paragraph(String text) {
+    public static FlexComponent paragraph(String text) {
         return new FlexText.Builder().text(text).size("md").color(TEXT).wrap(true).build();
     }
 
-    static FlexComponent note(String text) {
+    public static FlexComponent note(String text) {
         return new FlexText.Builder().text(text).size("xs").color(LABEL).wrap(true).build();
     }
 
-    static FlexComponent separator() {
+    public static FlexComponent separator() {
         return new FlexSeparator(null, "#E5E9EC");
     }
 
     /** 標籤（chip）列，每列最多 3 個；固定寬度讓各列對齊 */
-    static List<FlexComponent> chips(List<String> labels, Tone tone) {
+    public static List<FlexComponent> chips(List<String> labels, Tone tone) {
         List<FlexComponent> rows = new ArrayList<>();
         for (int i = 0; i < labels.size(); i += 3) {
             List<FlexComponent> chips = new ArrayList<>();
@@ -194,19 +194,19 @@ final class FlexParts {
     }
 
     /** 指令說明列：左側粗體指令、右側說明 */
-    static FlexComponent commandRow(String command, String description) {
+    public static FlexComponent commandRow(String command, String description) {
         return new FlexBox.Builder(FlexBox.Layout.VERTICAL, List.of(
                 new FlexText.Builder().text(command).size("sm").weight(FlexText.Weight.BOLD).color(TEXT).build(),
                 new FlexText.Builder().text(description).size("xs").color(LABEL).wrap(true).build()))
                 .build();
     }
 
-    static FlexComponent messageButton(String label, String text, boolean primary, Tone tone) {
+    public static FlexComponent messageButton(String label, String text, boolean primary, Tone tone) {
         return button(new MessageAction(label, text), primary, tone);
     }
 
     /** Postback 按鈕；openKeyboard 為 true 時點選後自動開啟鍵盤 */
-    static FlexComponent postbackButton(String label, String data, String displayText, boolean openKeyboard,
+    public static FlexComponent postbackButton(String label, String data, String displayText, boolean openKeyboard,
             Tone tone) {
         PostbackAction action = new PostbackAction(label, data, displayText, null,
                 openKeyboard ? PostbackAction.InputOption.OPEN_KEYBOARD : null, null);
@@ -214,7 +214,7 @@ final class FlexParts {
     }
 
     /** Postback 按鈕：點選後開啟鍵盤並預填文字，使用者補上內容即可送出 */
-    static FlexComponent fillInButton(String label, String data, String fillInText, boolean primary, Tone tone) {
+    public static FlexComponent fillInButton(String label, String data, String fillInText, boolean primary, Tone tone) {
         PostbackAction action = new PostbackAction(label, data, null, null,
                 PostbackAction.InputOption.OPEN_KEYBOARD, fillInText);
         return button(action, primary, tone);

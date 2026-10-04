@@ -61,11 +61,18 @@ public class NotificationEngine {
                 Optional<PendingPush> push = transactionTemplate
                         .execute(tx -> evaluateJob(job.getId(), status, previousNumber));
                 if (push != null) {
-                    push.ifPresent(sender::send);
+                    push.ifPresent(this::send);
                 }
             } catch (Exception e) {
                 log.error("Failed to evaluate tracking job {}", job.getId(), e);
             }
+        }
+    }
+
+    private void send(PendingPush push) {
+        boolean delivered = sender.send(push);
+        if (push.pushedThreshold() != null) {
+            historyRepository.updateDelivered(push.trackingJobId(), push.pushedThreshold(), delivered);
         }
     }
 
@@ -101,7 +108,8 @@ public class NotificationEngine {
         }
         log.info("Tracking job {} ({} #{}): {} at #{}", job.getId(), status.roomName(), job.getTargetNumber(),
                 decision.type(), status.currentNumber());
-        return new PendingPush(job.getSubscriber().getLineUserId(), decision.type(), status, job.getTargetNumber());
+        return new PendingPush(job.getId(), job.getSubscriber().getLineUserId(), decision.type(), status,
+                job.getTargetNumber(), decision.pushedThreshold());
     }
 
 }

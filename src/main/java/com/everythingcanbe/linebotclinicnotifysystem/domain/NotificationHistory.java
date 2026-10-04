@@ -36,6 +36,10 @@ public class NotificationHistory {
     @Column(name = "sent_at", nullable = false)
     private LocalDateTime sentAt;
 
+    /** 推播結果：true 送達、false 失敗、null 未推播或尚未記錄 */
+    @Column(name = "delivered")
+    private Boolean delivered;
+
     protected NotificationHistory() {
     }
 
@@ -64,6 +68,10 @@ public class NotificationHistory {
 
     public LocalDateTime getSentAt() {
         return sentAt;
+    }
+
+    public Boolean getDelivered() {
+        return delivered;
     }
 
 }

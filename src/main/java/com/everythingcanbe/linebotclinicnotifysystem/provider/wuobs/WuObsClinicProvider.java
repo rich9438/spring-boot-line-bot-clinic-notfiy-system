@@ -1,5 +1,6 @@
 package com.everythingcanbe.linebotclinicnotifysystem.provider.wuobs;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,15 @@ public class WuObsClinicProvider implements ClinicProvider {
         }
         // 每次都重新解析：「是否為當日資料」會隨時間改變
         return parser.parse(body, CODE);
+    }
+
+    @Override
+    public String fetchRaw(Integer roomId) {
+        String url = String.format(properties.wuobs().urlTemplate(), roomId)
+                + "?rand=" + ThreadLocalRandom.current().nextDouble();
+        byte[] body = Objects.requireNonNull(restClient.get().uri(url).retrieve().body(byte[].class),
+                "Empty response body");
+        return new String(XmlRoomStatusParser.stripBom(body), StandardCharsets.UTF_8);
     }
 
     private record CachedContent(String etag, byte[] body) {

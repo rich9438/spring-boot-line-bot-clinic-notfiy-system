@@ -6,10 +6,12 @@ import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomStatus;
  * 交易提交後才送出的推播。
  */
 public record PendingPush(
+        Long trackingJobId,
         String lineUserId,
         NotificationType type,
         RoomStatus status,
-        int targetNumber) {
+        int targetNumber,
+        Integer pushedThreshold) {
 
     public int remaining() {
         return targetNumber - status.currentNumber();

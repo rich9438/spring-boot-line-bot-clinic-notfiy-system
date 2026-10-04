@@ -44,6 +44,19 @@ line:
     handler:
       path: /callback
 
+# 後台管理 Bot（同 Provider 下的另一個 Channel），預設關閉
+admin:
+  enabled: ${ADMIN_ENABLED:false}
+  channel-token: ${ADMIN_LINE_CHANNEL_TOKEN:}
+  channel-secret: ${ADMIN_LINE_CHANNEL_SECRET:}
+  # 管理者 userId，逗號分隔
+  user-ids: ${ADMIN_LINE_USER_IDS:}
+  alerts:
+    fetch-failure-threshold: 5
+    throttle: 30m
+    quota-warn-ratio: 0.8
+    daily-summary-cron: "0 0 22 * * *"
+
 logging:
   level:
     com.everythingcanbe.linebotclinicnotifysystem: INFO

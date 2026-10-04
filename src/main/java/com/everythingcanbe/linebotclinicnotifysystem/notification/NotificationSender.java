@@ -5,6 +5,9 @@ package com.everythingcanbe.linebotclinicnotifysystem.notification;
  */
 public interface NotificationSender {
 
-    void send(PendingPush push);
+    /**
+     * @return 是否成功送達
+     */
+    boolean send(PendingPush push);
 
 }

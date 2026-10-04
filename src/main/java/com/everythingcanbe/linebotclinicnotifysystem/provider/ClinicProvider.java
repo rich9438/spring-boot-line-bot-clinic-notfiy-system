@@ -16,4 +16,11 @@ public interface ClinicProvider {
 
     RoomStatus fetchRoom(Integer roomId);
 
+    /**
+     * 直接向資料來源取得原始內容（後台診斷用，不使用快取）。
+     */
+    default String fetchRaw(Integer roomId) {
+        throw new UnsupportedOperationException("Raw content is not supported by " + code());
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.linecorp.bot.messaging.client.MessagingApiClient;
@@ -23,9 +24,11 @@ public class LineMessenger {
     private static final long TIMEOUT_SECONDS = 10;
 
     private final MessagingApiClient client;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public LineMessenger(MessagingApiClient client) {
+    public LineMessenger(MessagingApiClient client, ApplicationEventPublisher eventPublisher) {
         this.client = client;
+        this.eventPublisher = eventPublisher;
     }
 
     public boolean push(String lineUserId, List<Message> messages) {
@@ -38,6 +41,8 @@ public class LineMessenger {
             return false;
         } catch (Exception e) {
             log.error("Failed to push message to {}", lineUserId, e);
+            Throwable cause = e.getCause() != null ? e.getCause() : e;
+            eventPublisher.publishEvent(new PushFailedEvent(lineUserId, cause.toString()));
             return false;
         }
     }

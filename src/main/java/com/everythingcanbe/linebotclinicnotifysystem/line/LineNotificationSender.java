@@ -25,7 +25,7 @@ public class LineNotificationSender implements NotificationSender {
     }
 
     @Override
-    public void send(PendingPush push) {
+    public boolean send(PendingPush push) {
         Message message = switch (push.type()) {
             case PROGRESS -> messageFactory.progress(push.status(), push.targetNumber(),
                     waitTimeEstimator.estimateMinutes(push.status().providerCode(), push.status().roomId(),
@@ -34,7 +34,7 @@ public class LineNotificationSender implements NotificationSender {
             case MISSED -> messageFactory.missed(push.status(), push.targetNumber());
             case SESSION_RESET -> messageFactory.sessionReset(push.status(), push.targetNumber());
         };
-        messenger.push(push.lineUserId(), List.of(message));
+        return messenger.push(push.lineUserId(), List.of(message));
     }
 
 }
