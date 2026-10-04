@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.linecorp.bot.client.base.Result;
 import com.linecorp.bot.messaging.client.MessagingApiClient;
 import com.linecorp.bot.messaging.model.ReplyMessageRequest;
-import com.linecorp.bot.messaging.model.TextMessage;
+import com.linecorp.bot.messaging.model.FlexMessage;
 
 import com.everythingcanbe.linebotclinicnotifysystem.provider.ClinicProvider;
 
@@ -66,7 +66,7 @@ class LineWebhookIntegrationTest {
         verify(messagingApiClient, timeout(2000)).replyMessage(captor.capture());
         assertThat(captor.getValue().replyToken()).isEqualTo("reply-token");
         assertThat(captor.getValue().messages()).singleElement()
-                .extracting(m -> ((TextMessage) m).text()).asString().contains("支援的指令");
+                .extracting(m -> ((FlexMessage) m).altText()).asString().contains("使用說明");
     }
 
     @Test
@@ -89,7 +89,7 @@ class LineWebhookIntegrationTest {
         verify(messagingApiClient, timeout(2000)).replyMessage(captor.capture());
         // 資料來源以 mock 取代（無資料），驗證 postback 已被解析為「選擇二診」並回覆
         assertThat(captor.getValue().messages()).singleElement()
-                .extracting(m -> ((TextMessage) m).text()).asString().contains("二診");
+                .extracting(m -> ((FlexMessage) m).altText()).asString().contains("二診");
     }
 
     @Test

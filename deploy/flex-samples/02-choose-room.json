@@ -1,0 +1,251 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "請選擇要追蹤的診間：一診 35 號、二診 46 號、三診 未看診",
+    "contents" : {
+      "type" : "carousel",
+      "contents" : [ {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "一診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "婦產科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#2E86C1",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "目前叫號",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "35",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "box",
+            "layout" : "baseline",
+            "contents" : [ {
+              "type" : "text",
+              "flex" : 2,
+              "text" : "醫師",
+              "size" : "sm",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "flex" : 5,
+              "text" : "吳瑞聰",
+              "size" : "md",
+              "color" : "#2C3E50",
+              "weight" : "bold",
+              "wrap" : true
+            } ]
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "footer" : {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "button",
+            "flex" : 1,
+            "color" : "#2E86C1",
+            "style" : "primary",
+            "action" : {
+              "type" : "postback",
+              "label" : "追蹤一診",
+              "data" : "action=select-room&room=1",
+              "displayText" : "追蹤一診",
+              "inputOption" : "openKeyboard"
+            },
+            "height" : "sm"
+          } ],
+          "spacing" : "sm",
+          "paddingAll" : "12px",
+          "paddingTop" : "0px"
+        },
+        "size" : "kilo"
+      }, {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "二診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "婦產科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#2E86C1",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "目前叫號",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "46",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "box",
+            "layout" : "baseline",
+            "contents" : [ {
+              "type" : "text",
+              "flex" : 2,
+              "text" : "醫師",
+              "size" : "sm",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "flex" : 5,
+              "text" : "吳瑞聰",
+              "size" : "md",
+              "color" : "#2C3E50",
+              "weight" : "bold",
+              "wrap" : true
+            } ]
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "footer" : {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "button",
+            "flex" : 1,
+            "color" : "#2E86C1",
+            "style" : "primary",
+            "action" : {
+              "type" : "postback",
+              "label" : "追蹤二診",
+              "data" : "action=select-room&room=2",
+              "displayText" : "追蹤二診",
+              "inputOption" : "openKeyboard"
+            },
+            "height" : "sm"
+          } ],
+          "spacing" : "sm",
+          "paddingAll" : "12px",
+          "paddingTop" : "0px"
+        },
+        "size" : "kilo"
+      }, {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "三診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "小兒科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#7F8C8D",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "未看診",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#7F8C8D",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "size" : "kilo"
+      } ]
+    }
+  } ]
+}

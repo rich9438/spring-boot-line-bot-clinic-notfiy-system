@@ -1,0 +1,62 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "目前沒有追蹤：點選下方按鈕選擇診間，或輸入「追蹤 2診 56號」開始追蹤。",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "目前沒有追蹤",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#7F8C8D",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "點選下方按鈕選擇診間，或輸入「追蹤 2診 56號」開始追蹤。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#2E86C1",
+          "style" : "primary",
+          "action" : {
+            "type" : "message",
+            "label" : "開始追蹤",
+            "text" : "追蹤"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

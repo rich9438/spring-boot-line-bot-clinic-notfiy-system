@@ -1,0 +1,43 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "此號碼已過號：二診目前 60 號，56 號已過號，請洽櫃台。",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "此號碼已過號",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#C0392B",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "二診目前 60 號，56 號已過號，請洽櫃台。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      }
+    }
+  } ]
+}

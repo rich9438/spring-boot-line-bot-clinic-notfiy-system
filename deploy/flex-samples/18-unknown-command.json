@@ -1,0 +1,62 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "看不懂這個指令：可使用下方選單操作，或輸入「幫助」查看所有指令。",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "看不懂這個指令",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#7F8C8D",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "可使用下方選單操作，或輸入「幫助」查看所有指令。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#2E86C1",
+          "style" : "primary",
+          "action" : {
+            "type" : "message",
+            "label" : "使用說明",
+            "text" : "幫助"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

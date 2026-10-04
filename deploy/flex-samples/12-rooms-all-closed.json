@@ -1,0 +1,200 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "目前沒有看診中的診間：請於看診時段再試。",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "目前沒有看診中的診間",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#7F8C8D",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "請於看診時段再試。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      }
+    }
+  }, {
+    "type" : "flex",
+    "altText" : "診間看診進度：一診 未看診、二診 未看診、三診 未看診",
+    "contents" : {
+      "type" : "carousel",
+      "contents" : [ {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "一診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "婦產科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#7F8C8D",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "未看診",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#7F8C8D",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "size" : "kilo"
+      }, {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "二診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "婦產科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#7F8C8D",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "未看診",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#7F8C8D",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "size" : "kilo"
+      }, {
+        "type" : "bubble",
+        "header" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "三診",
+            "size" : "xl",
+            "color" : "#FFFFFF",
+            "weight" : "bold",
+            "wrap" : true
+          }, {
+            "type" : "text",
+            "text" : "小兒科",
+            "size" : "xs",
+            "color" : "#FFFFFFCC"
+          } ],
+          "spacing" : "xs",
+          "backgroundColor" : "#7F8C8D",
+          "paddingAll" : "16px"
+        },
+        "body" : {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "contents" : [ {
+              "type" : "text",
+              "text" : "未看診",
+              "size" : "4xl",
+              "align" : "center",
+              "color" : "#7F8C8D",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "12px",
+            "paddingAll" : "12px"
+          }, {
+            "type" : "text",
+            "text" : "資料更新：10/05 14:20",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md",
+          "paddingAll" : "16px"
+        },
+        "size" : "kilo"
+      } ]
+    }
+  } ]
+}

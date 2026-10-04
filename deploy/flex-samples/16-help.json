@@ -1,0 +1,178 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "使用說明：追蹤、目前狀態、取消追蹤、診間、設定門檻",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "使用說明",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#2E86C1",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "追蹤",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "選擇診間後輸入號碼，即可開始追蹤",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "追蹤 2診 56號",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "直接開始追蹤（新的追蹤會取代舊的）",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "目前狀態",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "查看追蹤進度與預估時間",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "取消追蹤",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "停止追蹤",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "診間",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "查看所有診間目前號碼",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "設定門檻 10 5",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "自訂剩幾位時通知（到號一定會通知）",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "查看門檻 / 重設門檻",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "查看或恢復預設通知門檻",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#2E86C1",
+          "style" : "primary",
+          "action" : {
+            "type" : "message",
+            "label" : "開始追蹤",
+            "text" : "追蹤"
+          },
+          "height" : "sm"
+        }, {
+          "type" : "button",
+          "flex" : 1,
+          "style" : "secondary",
+          "action" : {
+            "type" : "message",
+            "label" : "查看診間",
+            "text" : "診間"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

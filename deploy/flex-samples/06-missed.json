@@ -1,0 +1,134 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "⚠️ 已過號：二診 目前 58 號，您的 56 號已過號，請洽櫃台",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "⚠️ 已過號",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#C0392B",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "box",
+          "layout" : "baseline",
+          "contents" : [ {
+            "type" : "text",
+            "flex" : 0,
+            "text" : "二診",
+            "size" : "xxl",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "婦產科 吳瑞聰",
+            "size" : "sm",
+            "align" : "end",
+            "gravity" : "bottom",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md"
+        }, {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 1,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "目前叫號",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "58",
+              "size" : "3xl",
+              "align" : "center",
+              "color" : "#C0392B",
+              "weight" : "bold"
+            } ]
+          }, {
+            "type" : "separator",
+            "color" : "#DDE3E7"
+          }, {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 1,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "您的號碼",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "56",
+              "size" : "3xl",
+              "align" : "center",
+              "color" : "#2C3E50",
+              "weight" : "bold"
+            } ]
+          } ],
+          "backgroundColor" : "#F2F5F7",
+          "cornerRadius" : "12px",
+          "paddingAll" : "12px"
+        }, {
+          "type" : "text",
+          "text" : "您的號碼已過號，請洽櫃台。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "追蹤已結束",
+          "size" : "xs",
+          "color" : "#8A9499",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#C0392B",
+          "style" : "primary",
+          "action" : {
+            "type" : "message",
+            "label" : "重新追蹤",
+            "text" : "追蹤"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

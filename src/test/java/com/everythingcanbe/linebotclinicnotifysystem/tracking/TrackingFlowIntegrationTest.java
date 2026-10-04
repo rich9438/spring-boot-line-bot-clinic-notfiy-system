@@ -19,12 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.bot.client.base.Result;
+import com.linecorp.bot.jackson.ModelObjectMapper;
 import com.linecorp.bot.messaging.client.MessagingApiClient;
 import com.linecorp.bot.messaging.model.FlexMessage;
 import com.linecorp.bot.messaging.model.Message;
 import com.linecorp.bot.messaging.model.PushMessageRequest;
-import com.linecorp.bot.messaging.model.TextMessage;
 
 import com.everythingcanbe.linebotclinicnotifysystem.domain.EndReason;
 import com.everythingcanbe.linebotclinicnotifysystem.domain.TrackingJob;
@@ -47,6 +48,7 @@ import com.everythingcanbe.linebotclinicnotifysystem.repository.TrackingJobRepos
 class TrackingFlowIntegrationTest {
 
     private static final String USER = "U-test-user";
+    private static final ObjectMapper OBJECT_MAPPER = ModelObjectMapper.createNewObjectMapper();
 
     @MockitoBean
     ClinicProvider provider;
@@ -121,7 +123,7 @@ class TrackingFlowIntegrationTest {
 
         assertThat(trackingJobRepository.findAll()).singleElement()
                 .extracting(TrackingJob::getEndReason).isEqualTo(EndReason.ARRIVED);
-        assertThat(replyText(new Command.Status())).contains("目前沒有追蹤中的號碼");
+        assertThat(replyText(new Command.Status())).contains("目前沒有追蹤");
     }
 
     @Test
@@ -131,7 +133,8 @@ class TrackingFlowIntegrationTest {
         monitor.onStatus(notInSession(3));
 
         List<Message> picker = dispatcher.dispatch(USER, new Command.ChooseRoom());
-        assertThat(picker).singleElement().isInstanceOf(FlexMessage.class);
+        assertThat(picker).singleElement().isInstanceOf(FlexMessage.class)
+                .extracting(m -> ((FlexMessage) m).altText()).asString().startsWith("請選擇要追蹤的診間");
 
         assertThat(replyText(new Command.SelectRoom(2))).contains("二診目前 46 號", "請輸入您的看診號碼");
         assertThat(replyText(new Command.Number(56))).contains("已開始追蹤", "二診", "剩餘 10 位");
@@ -140,7 +143,7 @@ class TrackingFlowIntegrationTest {
                 .containsExactly(2, 56);
 
         // 選定的診間只能用一次
-        assertThat(replyText(new Command.Number(57))).contains("請先點選選單的「追蹤」");
+        assertThat(replyText(new Command.Number(57))).contains("請先選擇診間");
     }
 
     @Test
@@ -150,7 +153,7 @@ class TrackingFlowIntegrationTest {
         replyText(new Command.SelectRoom(2));
         replyText(new Command.Rooms());
 
-        assertThat(replyText(new Command.Number(56))).contains("請先點選選單的「追蹤」");
+        assertThat(replyText(new Command.Number(56))).contains("請先選擇診間");
         assertThat(trackingJobRepository.findAll()).isEmpty();
     }
 
@@ -244,7 +247,7 @@ class TrackingFlowIntegrationTest {
                 .extracting(m -> ((FlexMessage) m).altText()).asString().contains("剩餘 10 位");
 
         assertThat(replyText(new Command.Cancel())).contains("已取消追蹤");
-        assertThat(replyText(new Command.Cancel())).contains("目前沒有追蹤中的號碼");
+        assertThat(replyText(new Command.Cancel())).contains("目前沒有追蹤");
     }
 
     @Test
@@ -253,14 +256,27 @@ class TrackingFlowIntegrationTest {
         monitor.onStatus(room(2, 46));
         monitor.onStatus(notInSession(3));
 
-        assertThat(replyText(new Command.Rooms()))
-                .isEqualTo("一診（婦產科 吳瑞聰）：35號\n二診（婦產科 吳瑞聰）：46號\n三診（小兒科）：未看診");
+        String rooms = replyText(new Command.Rooms());
+
+        // 一個 Carousel、每個診間一張卡片；只有看診中的診間有追蹤按鈕
+        assertThat(rooms)
+                .contains("\"type\":\"carousel\"", "診間看診進度：一診 35 號、二診 46 號、三診 未看診")
+                .contains("action=select-room&room=1", "action=select-room&room=2")
+                .doesNotContain("action=select-room&room=3");
+        assertThat(rooms.split("\"type\":\"bubble\"", -1)).hasSize(4);
     }
 
+    /**
+     * 回覆一律為 Flex 卡片；回傳序列化後的 JSON 以便檢查內容。
+     */
     private String replyText(Command command) {
         List<Message> messages = dispatcher.dispatch(USER, command);
-        assertThat(messages).singleElement().isInstanceOf(TextMessage.class);
-        return ((TextMessage) messages.getFirst()).text();
+        assertThat(messages).isNotEmpty().allSatisfy(m -> assertThat(m).isInstanceOf(FlexMessage.class));
+        try {
+            return OBJECT_MAPPER.writeValueAsString(messages);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private List<Message> pushedMessages() {

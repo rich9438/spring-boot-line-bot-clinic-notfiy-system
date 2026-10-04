@@ -73,8 +73,7 @@ public class LineWebhookHandler {
         }
         String displayName = messenger.displayName(source.userId()).orElse(null);
         subscriberService.follow(source.userId(), displayName);
-        String greeting = displayName == null ? "您好！" : displayName + " 您好！";
-        return List.of(messageFactory.text(greeting + "我會在快輪到您看診時通知您。\n\n" + CommandDispatcher.HELP_TEXT));
+        return List.of(messageFactory.welcome(displayName));
     }
 
     @EventMapping

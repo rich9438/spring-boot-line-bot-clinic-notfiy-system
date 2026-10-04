@@ -1,0 +1,126 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "通知門檻：15、8、3、到號",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "通知門檻",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#2E86C1",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "剩下以下人數時會通知您：",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        }, {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 0,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "剩 15 位",
+              "size" : "sm",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "20px",
+            "width" : "31%",
+            "paddingAll" : "8px"
+          }, {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 0,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "剩 8 位",
+              "size" : "sm",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "20px",
+            "width" : "31%",
+            "paddingAll" : "8px"
+          }, {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 0,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "剩 3 位",
+              "size" : "sm",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "20px",
+            "width" : "31%",
+            "paddingAll" : "8px"
+          } ],
+          "spacing" : "sm"
+        }, {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 0,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "到號",
+              "size" : "sm",
+              "align" : "center",
+              "color" : "#2E86C1",
+              "weight" : "bold"
+            } ],
+            "backgroundColor" : "#F2F5F7",
+            "cornerRadius" : "20px",
+            "width" : "31%",
+            "paddingAll" : "8px"
+          } ],
+          "spacing" : "sm"
+        }, {
+          "type" : "separator",
+          "color" : "#E5E9EC"
+        }, {
+          "type" : "text",
+          "text" : "自訂：輸入「設定門檻 10 5」（最多 5 個，1～50）\n恢復預設：輸入「重設門檻」",
+          "size" : "xs",
+          "color" : "#8A9499",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      }
+    }
+  } ]
+}

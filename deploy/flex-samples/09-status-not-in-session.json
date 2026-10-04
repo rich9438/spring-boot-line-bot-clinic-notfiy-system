@@ -1,0 +1,137 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "二診目前未看診，您的號碼：56 號",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "看診進度",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#7F8C8D",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "box",
+          "layout" : "baseline",
+          "contents" : [ {
+            "type" : "text",
+            "flex" : 0,
+            "text" : "二診",
+            "size" : "xxl",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "婦產科",
+            "size" : "sm",
+            "align" : "end",
+            "gravity" : "bottom",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md"
+        }, {
+          "type" : "box",
+          "layout" : "horizontal",
+          "contents" : [ {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 1,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "目前叫號",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "未看診",
+              "size" : "3xl",
+              "align" : "center",
+              "color" : "#7F8C8D",
+              "weight" : "bold"
+            } ]
+          }, {
+            "type" : "separator",
+            "color" : "#DDE3E7"
+          }, {
+            "type" : "box",
+            "layout" : "vertical",
+            "flex" : 1,
+            "contents" : [ {
+              "type" : "text",
+              "text" : "您的號碼",
+              "size" : "xs",
+              "align" : "center",
+              "color" : "#8A9499"
+            }, {
+              "type" : "text",
+              "text" : "56",
+              "size" : "3xl",
+              "align" : "center",
+              "color" : "#2C3E50",
+              "weight" : "bold"
+            } ]
+          } ],
+          "backgroundColor" : "#F2F5F7",
+          "cornerRadius" : "12px",
+          "paddingAll" : "12px"
+        }, {
+          "type" : "text",
+          "text" : "開始看診後，達到通知門檻時會自動通知您",
+          "size" : "xs",
+          "color" : "#8A9499",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "style" : "secondary",
+          "action" : {
+            "type" : "message",
+            "label" : "重新整理",
+            "text" : "目前狀態"
+          },
+          "height" : "sm"
+        }, {
+          "type" : "button",
+          "flex" : 1,
+          "style" : "secondary",
+          "action" : {
+            "type" : "message",
+            "label" : "取消追蹤",
+            "text" : "取消追蹤"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

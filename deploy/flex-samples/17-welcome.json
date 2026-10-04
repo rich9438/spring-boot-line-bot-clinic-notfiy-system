@@ -1,0 +1,129 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "歡迎使用慈心吳婦產科看診進度通知",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "歡迎使用看診進度通知",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#2E86C1",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "小明，您好！快輪到您看診時，我會主動通知您。",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        }, {
+          "type" : "separator",
+          "color" : "#E5E9EC"
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "① 點選單的「追蹤看診號碼」",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "選擇診間",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "② 輸入您的看診號碼",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "例如：56",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "③ 等待通知",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "剩 10、3 位及到號時提醒您",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "text",
+          "text" : "輸入「幫助」可查看所有指令",
+          "size" : "xs",
+          "color" : "#8A9499",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#2E86C1",
+          "style" : "primary",
+          "action" : {
+            "type" : "message",
+            "label" : "開始追蹤",
+            "text" : "追蹤"
+          },
+          "height" : "sm"
+        }, {
+          "type" : "button",
+          "flex" : 1,
+          "style" : "secondary",
+          "action" : {
+            "type" : "message",
+            "label" : "查看診間",
+            "text" : "診間"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
+      }
+    }
+  } ]
+}

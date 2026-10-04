@@ -1,0 +1,89 @@
+{
+  "to" : "${LINE_USER_ID}",
+  "messages" : [ {
+    "type" : "flex",
+    "altText" : "二診目前 46 號，請輸入您的看診號碼",
+    "contents" : {
+      "type" : "bubble",
+      "header" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "text",
+          "text" : "請輸入看診號碼",
+          "size" : "xl",
+          "color" : "#FFFFFF",
+          "weight" : "bold",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "慈心吳婦產科",
+          "size" : "xs",
+          "color" : "#FFFFFFCC"
+        } ],
+        "spacing" : "xs",
+        "backgroundColor" : "#2E86C1",
+        "paddingAll" : "16px"
+      },
+      "body" : {
+        "type" : "box",
+        "layout" : "vertical",
+        "contents" : [ {
+          "type" : "box",
+          "layout" : "baseline",
+          "contents" : [ {
+            "type" : "text",
+            "flex" : 0,
+            "text" : "二診",
+            "size" : "xxl",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "婦產科 吳瑞聰",
+            "size" : "sm",
+            "align" : "end",
+            "gravity" : "bottom",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ],
+          "spacing" : "md"
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "目前叫號",
+            "size" : "xs",
+            "align" : "center",
+            "color" : "#8A9499"
+          }, {
+            "type" : "text",
+            "text" : "46",
+            "size" : "4xl",
+            "align" : "center",
+            "color" : "#2E86C1",
+            "weight" : "bold"
+          } ],
+          "backgroundColor" : "#F2F5F7",
+          "cornerRadius" : "12px",
+          "paddingAll" : "12px"
+        }, {
+          "type" : "text",
+          "text" : "請直接輸入您的看診號碼，例如：56",
+          "size" : "md",
+          "color" : "#2C3E50",
+          "wrap" : true
+        }, {
+          "type" : "text",
+          "text" : "5 分鐘內有效",
+          "size" : "xs",
+          "color" : "#8A9499",
+          "wrap" : true
+        } ],
+        "spacing" : "md",
+        "paddingAll" : "16px"
+      }
+    }
+  } ]
+}
