@@ -71,8 +71,14 @@ public class LineWebhookHandler {
         if (!(event.source() instanceof UserSource source)) {
             return List.of();
         }
+        log.info("Follow from {}", source.userId());
         String displayName = messenger.displayName(source.userId()).orElse(null);
-        subscriberService.follow(source.userId(), displayName);
+        try {
+            subscriberService.follow(source.userId(), displayName);
+        } catch (Exception e) {
+            // 歡迎卡片優先送出；使用者下次傳訊息時仍會自動建立 subscriber
+            log.error("Failed to save subscriber on follow: {}", source.userId(), e);
+        }
         return List.of(messageFactory.welcome(displayName));
     }
 

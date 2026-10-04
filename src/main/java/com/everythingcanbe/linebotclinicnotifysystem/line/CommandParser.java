@@ -33,7 +33,7 @@ public class CommandParser {
     private static final Set<String> STATUS = Set.of("目前狀態", "狀態", "查詢");
     private static final Set<String> CANCEL = Set.of("取消追蹤", "取消");
     private static final Set<String> ROOMS = Set.of("診間", "所有診間");
-    private static final Set<String> SHOW_THRESHOLDS = Set.of("查看門檻", "門檻");
+    private static final Set<String> SHOW_THRESHOLDS = Set.of("查看門檻", "門檻", "通知設定", "設定");
     private static final Set<String> RESET_THRESHOLDS = Set.of("重設門檻");
     private static final Set<String> HELP = Set.of("幫助", "help", "?", "說明");
 
@@ -85,6 +85,9 @@ public class CommandParser {
             if (index > 0) {
                 params.put(pair.substring(0, index), pair.substring(index + 1));
             }
+        }
+        if (PostbackActions.CUSTOM_THRESHOLDS.equals(params.get("action"))) {
+            return new Command.NoReply();
         }
         if (PostbackActions.SELECT_ROOM.equals(params.get("action"))) {
             Integer roomId = RoomNames.parse(params.get("room"));

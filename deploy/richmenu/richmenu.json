@@ -3,8 +3,8 @@
     "width": 2500,
     "height": 1686
   },
-  "selected": true,
-  "name": "clinic-main-v1",
+  "selected": false,
+  "name": "clinic-main-v2",
   "chatBarText": "看診進度選單",
   "areas": [
     {
@@ -24,8 +24,16 @@
       "action": { "type": "message", "label": "取消追蹤", "text": "取消追蹤" }
     },
     {
-      "bounds": { "x": 1875, "y": 843, "width": 625, "height": 843 },
+      "bounds": { "x": 1875, "y": 843, "width": 625, "height": 632 },
       "action": { "type": "message", "label": "幫助", "text": "幫助" }
+    },
+    {
+      "bounds": { "x": 1875, "y": 1475, "width": 417, "height": 211 },
+      "action": { "type": "message", "label": "幫助", "text": "幫助" }
+    },
+    {
+      "bounds": { "x": 2292, "y": 1475, "width": 208, "height": 211 },
+      "action": { "type": "message", "label": "通知設定", "text": "通知設定" }
     }
   ]
 }

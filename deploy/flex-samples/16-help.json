@@ -113,13 +113,13 @@
           "layout" : "vertical",
           "contents" : [ {
             "type" : "text",
-            "text" : "設定門檻 10 5",
+            "text" : "通知設定（選單右下角 ⚙）",
             "size" : "sm",
             "color" : "#2C3E50",
             "weight" : "bold"
           }, {
             "type" : "text",
-            "text" : "自訂剩幾位時通知（到號一定會通知）",
+            "text" : "查看、自訂或重設通知門檻",
             "size" : "xs",
             "color" : "#8A9499",
             "wrap" : true
@@ -129,13 +129,13 @@
           "layout" : "vertical",
           "contents" : [ {
             "type" : "text",
-            "text" : "查看門檻 / 重設門檻",
+            "text" : "設定門檻 10 5",
             "size" : "sm",
             "color" : "#2C3E50",
             "weight" : "bold"
           }, {
             "type" : "text",
-            "text" : "查看或恢復預設通知門檻",
+            "text" : "直接設定剩幾位時通知（到號一定會通知）",
             "size" : "xs",
             "color" : "#8A9499",
             "wrap" : true

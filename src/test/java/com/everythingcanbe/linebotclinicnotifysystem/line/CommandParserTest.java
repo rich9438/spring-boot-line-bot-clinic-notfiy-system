@@ -49,6 +49,7 @@ class CommandParserTest {
     @Test
     void parsesPostback() {
         assertThat(parser.parsePostback(PostbackActions.selectRoom(3))).isEqualTo(new Command.SelectRoom(3));
+        assertThat(parser.parsePostback(PostbackActions.customThresholds())).isInstanceOf(Command.NoReply.class);
         assertThat(parser.parsePostback("action=unknown")).isInstanceOf(Command.Unknown.class);
         assertThat(parser.parsePostback("action=select-room&room=x")).isInstanceOf(Command.Unknown.class);
         assertThat(parser.parsePostback(null)).isInstanceOf(Command.Unknown.class);
@@ -61,6 +62,7 @@ class CommandParserTest {
         assertThat(parser.parse("取消")).isInstanceOf(Command.Cancel.class);
         assertThat(parser.parse("診間")).isInstanceOf(Command.Rooms.class);
         assertThat(parser.parse("查看門檻")).isInstanceOf(Command.ShowThresholds.class);
+        assertThat(parser.parse("通知設定")).isInstanceOf(Command.ShowThresholds.class);
         assertThat(parser.parse("重設門檻")).isInstanceOf(Command.ResetThresholds.class);
         assertThat(parser.parse("幫助")).isInstanceOf(Command.Help.class);
         assertThat(parser.parse("HELP")).isInstanceOf(Command.Help.class);

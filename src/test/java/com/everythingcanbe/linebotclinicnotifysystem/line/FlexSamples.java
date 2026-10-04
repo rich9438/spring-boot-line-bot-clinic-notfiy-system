@@ -14,6 +14,7 @@ import com.everythingcanbe.linebotclinicnotifysystem.config.NotificationProperti
 import com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.Tone;
 import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomStatus;
 import com.everythingcanbe.linebotclinicnotifysystem.tracking.StartTrackingResult;
+import com.everythingcanbe.linebotclinicnotifysystem.tracking.ThresholdSettings;
 
 /**
  * 以範例資料產生所有卡片，供測試與匯出 request body（deploy/flex-samples）使用。
@@ -66,7 +67,8 @@ final class FlexSamples {
         samples.put("12-rooms-all-closed", List.of(
                 FACTORY.notice(Tone.NEUTRAL, "目前沒有看診中的診間", "請於看診時段再試。"),
                 FACTORY.rooms(closedRooms, "診間看診進度")));
-        samples.put("13-thresholds", List.of(FACTORY.thresholds("通知門檻", List.of(15, 8, 3, 0))));
+        samples.put("13-threshold-settings", List.of(FACTORY.thresholdSettings("通知設定",
+                new ThresholdSettings(List.of(15, 8, 3, 0), true, List.of(10, 3, 0)))));
         samples.put("14-cancelled", List.of(FACTORY.cancelled()));
         samples.put("15-number-passed", List.of(FACTORY.numberReached(room(2, 60), 56)));
         samples.put("16-help", List.of(FACTORY.help()));

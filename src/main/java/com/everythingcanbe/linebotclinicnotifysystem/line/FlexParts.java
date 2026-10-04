@@ -213,6 +213,13 @@ final class FlexParts {
         return button(action, true, tone);
     }
 
+    /** Postback 按鈕：點選後開啟鍵盤並預填文字，使用者補上內容即可送出 */
+    static FlexComponent fillInButton(String label, String data, String fillInText, boolean primary, Tone tone) {
+        PostbackAction action = new PostbackAction(label, data, null, null,
+                PostbackAction.InputOption.OPEN_KEYBOARD, fillInText);
+        return button(action, primary, tone);
+    }
+
     private static FlexComponent button(Action action, boolean primary, Tone tone) {
         FlexButton.Builder builder = new FlexButton.Builder(action)
                 .height(FlexButton.Height.SM)

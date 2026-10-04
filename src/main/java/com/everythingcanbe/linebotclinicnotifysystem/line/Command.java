@@ -50,4 +50,8 @@ public sealed interface Command {
     record Unknown(String text) implements Command {
     }
 
+    /** 不需回覆（例：「自訂門檻」按鈕只負責開啟鍵盤並預填文字） */
+    record NoReply() implements Command {
+    }
+
 }

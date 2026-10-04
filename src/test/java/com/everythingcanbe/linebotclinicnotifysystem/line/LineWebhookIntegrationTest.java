@@ -93,6 +93,29 @@ class LineWebhookIntegrationTest {
     }
 
     @Test
+    void followEventIsAnsweredWithWelcomeCard() throws Exception {
+        when(messagingApiClient.replyMessage(any()))
+                .thenReturn(CompletableFuture.completedFuture(new Result<>(null, null, null)));
+
+        String body = """
+                {"destination":"Uxxxx","events":[{"type":"follow","mode":"active","timestamp":1759470000000,
+                "webhookEventId":"01H002","deliveryContext":{"isRedelivery":false},
+                "source":{"type":"user","userId":"U-new"},"replyToken":"reply-token",
+                "follow":{"isUnblocked":false}}]}""";
+        mockMvc.perform(post("/callback")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-Line-Signature", sign(body))
+                        .content(body))
+                .andExpect(status().isOk());
+
+        // Profile API 無回應（mock）時仍以預設稱呼送出歡迎卡片
+        ArgumentCaptor<ReplyMessageRequest> captor = ArgumentCaptor.forClass(ReplyMessageRequest.class);
+        verify(messagingApiClient, timeout(2000)).replyMessage(captor.capture());
+        assertThat(captor.getValue().messages()).singleElement()
+                .extracting(m -> ((FlexMessage) m).altText()).asString().contains("歡迎使用");
+    }
+
+    @Test
     void groupMessageIsIgnored() throws Exception {
         String body = webhookBody("幫助", "group");
         mockMvc.perform(post("/callback")

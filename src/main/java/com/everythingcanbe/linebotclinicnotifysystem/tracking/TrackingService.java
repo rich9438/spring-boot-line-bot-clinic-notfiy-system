@@ -105,8 +105,8 @@ public class TrackingService {
     }
 
     @Transactional
-    public List<Integer> thresholds(String lineUserId) {
-        return thresholdResolver.resolve(subscriberService.getOrCreate(lineUserId));
+    public ThresholdSettings thresholdSettings(String lineUserId) {
+        return settingsOf(subscriberService.getOrCreate(lineUserId));
     }
 
     /**
@@ -115,7 +115,7 @@ public class TrackingService {
      * @throws IllegalArgumentException 門檻值不合法
      */
     @Transactional
-    public List<Integer> updateThresholds(String lineUserId, List<Integer> values) {
+    public ThresholdSettings updateThresholds(String lineUserId, List<Integer> values) {
         List<Integer> positives = values.stream().filter(v -> v != 0).distinct().toList();
         if (positives.isEmpty()) {
             throw new IllegalArgumentException("請至少輸入一個門檻");
@@ -140,14 +140,19 @@ public class TrackingService {
                         .filter(RoomStatus::inSession)
                         .ifPresent(status -> markCrossedThresholdsSilently(job, thresholds,
                                 job.getTargetNumber() - status.currentNumber())));
-        return thresholds;
+        return settingsOf(subscriber);
     }
 
     @Transactional
-    public List<Integer> resetThresholds(String lineUserId) {
+    public ThresholdSettings resetThresholds(String lineUserId) {
         Subscriber subscriber = subscriberService.getOrCreate(lineUserId);
         thresholdRepository.deleteBySubscriber(subscriber);
-        return thresholdResolver.defaults();
+        return settingsOf(subscriber);
+    }
+
+    private ThresholdSettings settingsOf(Subscriber subscriber) {
+        return new ThresholdSettings(thresholdResolver.resolve(subscriber), thresholdResolver.hasCustom(subscriber),
+                thresholdResolver.defaults());
     }
 
     @Transactional

@@ -33,6 +33,10 @@ public class ThresholdResolver {
         return normalize(custom.isEmpty() ? properties.defaultThresholds() : custom);
     }
 
+    public boolean hasCustom(Subscriber subscriber) {
+        return !thresholdRepository.findBySubscriber(subscriber).isEmpty();
+    }
+
     public List<Integer> defaults() {
         return normalize(properties.defaultThresholds());
     }

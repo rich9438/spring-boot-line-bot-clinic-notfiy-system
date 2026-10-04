@@ -234,7 +234,9 @@ class TrackingFlowIntegrationTest {
         assertThat(pushedMessages()).singleElement()
                 .extracting(m -> ((FlexMessage) m).altText()).asString().contains("剩餘 14 位");
 
-        assertThat(replyText(new Command.ResetThresholds())).contains("10、3、到號");
+        assertThat(replyText(new Command.ShowThresholds())).contains("通知設定：15、5、到號", "自訂");
+        assertThat(replyText(new Command.ResetThresholds())).contains("已恢復預設門檻：10、3、到號", "系統預設");
+        assertThat(dispatcher.dispatch(USER, new Command.NoReply())).isEmpty();
     }
 
     @Test

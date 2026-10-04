@@ -4,6 +4,7 @@ import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.bigCe
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.bubble;
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.chips;
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.commandRow;
+import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.fillInButton;
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.message;
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.messageButton;
 import static com.everythingcanbe.linebotclinicnotifysystem.line.FlexParts.note;
@@ -35,6 +36,7 @@ import com.everythingcanbe.linebotclinicnotifysystem.notification.ThresholdResol
 import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomNames;
 import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomStatus;
 import com.everythingcanbe.linebotclinicnotifysystem.tracking.StartTrackingResult;
+import com.everythingcanbe.linebotclinicnotifysystem.tracking.ThresholdSettings;
 
 /**
  * 所有回覆與推播訊息，一律以 Flex Message 卡片呈現。altText 會顯示在通知與聊天列表，需能單獨閱讀。
@@ -229,16 +231,25 @@ public class MessageFactory {
 
     // ── 通知門檻 ──────────────────────────────────────────
 
-    public Message thresholds(String title, List<Integer> thresholds) {
+    /**
+     * 通知設定卡片：目前門檻、使用說明，以及「自訂門檻」「重設為預設」按鈕。
+     * 「自訂門檻」會開啟鍵盤並預填「設定門檻 」，使用者補上數字即可送出。
+     */
+    public Message thresholdSettings(String title, ThresholdSettings settings) {
         List<FlexComponent> body = new ArrayList<>();
-        body.add(paragraph("剩下以下人數時會通知您："));
-        body.addAll(chips(thresholds.stream()
+        body.add(row("目前門檻", settings.custom() ? "自訂" : "系統預設"));
+        body.addAll(chips(settings.thresholds().stream()
                 .map(threshold -> threshold == 0 ? "到號" : "剩 " + threshold + " 位")
                 .toList(), Tone.INFO));
+        body.add(note(describeThresholds(settings.thresholds()) + "通知您"));
         body.add(separator());
-        body.add(note("自訂：輸入「設定門檻 10 5」（最多 5 個，1～50）\n恢復預設：輸入「重設門檻」"));
-        String altText = title + "：" + formatThresholds(thresholds);
-        return message(altText, bubble(Tone.INFO, title, clinicName(), body, List.of()));
+        body.add(commandRow("自訂門檻", "點「自訂門檻」後輸入剩幾位時通知，以空白分隔，例如：設定門檻 15 8 3"));
+        body.add(commandRow("規則", "最多 5 個，範圍 1～50；到號一定會通知"));
+        body.add(commandRow("重設為預設", "恢復為 " + formatThresholds(settings.defaults())));
+        String altText = title + "：" + formatThresholds(settings.thresholds());
+        return message(altText, bubble(Tone.INFO, title, clinicName(), body, List.of(
+                fillInButton("自訂門檻", PostbackActions.customThresholds(), "設定門檻 ", true, Tone.INFO),
+                messageButton("重設為預設", "重設門檻", false, Tone.INFO))));
     }
 
     // ── 說明 / 歡迎 / 通用提示 ────────────────────────────
@@ -259,7 +270,7 @@ public class MessageFactory {
                 commandRow("② 輸入您的看診號碼", "例如：56"),
                 commandRow("③ 等待通知", describeThresholds(
                         ThresholdResolver.normalize(notificationProperties.defaultThresholds())) + "提醒您"),
-                note("輸入「幫助」可查看所有指令"));
+                note("點選單右下角 ⚙ 可調整通知門檻；輸入「幫助」可查看所有指令"));
         return message("歡迎使用" + clinicName() + "看診進度通知",
                 bubble(Tone.INFO, "歡迎使用看診進度通知", clinicName(), body, List.of(
                         messageButton("開始追蹤", "追蹤", true, Tone.INFO),
@@ -299,8 +310,8 @@ public class MessageFactory {
                 commandRow("目前狀態", "查看追蹤進度與預估時間"),
                 commandRow("取消追蹤", "停止追蹤"),
                 commandRow("診間", "查看所有診間目前號碼"),
-                commandRow("設定門檻 10 5", "自訂剩幾位時通知（到號一定會通知）"),
-                commandRow("查看門檻 / 重設門檻", "查看或恢復預設通知門檻"));
+                commandRow("通知設定（選單右下角 ⚙）", "查看、自訂或重設通知門檻"),
+                commandRow("設定門檻 10 5", "直接設定剩幾位時通知（到號一定會通知）"));
     }
 
     private String clinicName() {

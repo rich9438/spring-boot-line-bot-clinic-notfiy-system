@@ -64,6 +64,17 @@ class MessageFactoryTest {
     }
 
     @Test
+    void thresholdSettingsCardHasFillInAndResetButtons() throws Exception {
+        String json = objectMapper.writeValueAsString(FlexSamples.all().get("13-threshold-settings").getFirst());
+
+        assertThat(json)
+                .contains("通知設定", "自訂", "剩 15 位", "剩 8 位", "剩 3 位", "到號")
+                .contains("\"inputOption\":\"openKeyboard\"", "\"fillInText\":\"設定門檻 \"",
+                        "action=custom-thresholds")
+                .contains("\"text\":\"重設門檻\"", "恢復為 10、3、到號");
+    }
+
+    @Test
     void describeThresholds() {
         assertThat(MessageFactory.describeThresholds(List.of(10, 3, 0))).isEqualTo("剩 10、3 位及到號時");
         assertThat(MessageFactory.describeThresholds(List.of(0))).isEqualTo("到號時");

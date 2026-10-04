@@ -2,7 +2,7 @@
   "to" : "${LINE_USER_ID}",
   "messages" : [ {
     "type" : "flex",
-    "altText" : "通知門檻：15、8、3、到號",
+    "altText" : "通知設定：15、8、3、到號",
     "contents" : {
       "type" : "bubble",
       "header" : {
@@ -10,7 +10,7 @@
         "layout" : "vertical",
         "contents" : [ {
           "type" : "text",
-          "text" : "通知門檻",
+          "text" : "通知設定",
           "size" : "xl",
           "color" : "#FFFFFF",
           "weight" : "bold",
@@ -29,11 +29,23 @@
         "type" : "box",
         "layout" : "vertical",
         "contents" : [ {
-          "type" : "text",
-          "text" : "剩下以下人數時會通知您：",
-          "size" : "md",
-          "color" : "#2C3E50",
-          "wrap" : true
+          "type" : "box",
+          "layout" : "baseline",
+          "contents" : [ {
+            "type" : "text",
+            "flex" : 2,
+            "text" : "目前門檻",
+            "size" : "sm",
+            "color" : "#8A9499"
+          }, {
+            "type" : "text",
+            "flex" : 5,
+            "text" : "自訂",
+            "size" : "md",
+            "color" : "#2C3E50",
+            "weight" : "bold",
+            "wrap" : true
+          } ]
         }, {
           "type" : "box",
           "layout" : "horizontal",
@@ -109,17 +121,96 @@
           } ],
           "spacing" : "sm"
         }, {
-          "type" : "separator",
-          "color" : "#E5E9EC"
-        }, {
           "type" : "text",
-          "text" : "自訂：輸入「設定門檻 10 5」（最多 5 個，1～50）\n恢復預設：輸入「重設門檻」",
+          "text" : "剩 15、8、3 位及到號時通知您",
           "size" : "xs",
           "color" : "#8A9499",
           "wrap" : true
+        }, {
+          "type" : "separator",
+          "color" : "#E5E9EC"
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "自訂門檻",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "點「自訂門檻」後輸入剩幾位時通知，以空白分隔，例如：設定門檻 15 8 3",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "規則",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "最多 5 個，範圍 1～50；到號一定會通知",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
+        }, {
+          "type" : "box",
+          "layout" : "vertical",
+          "contents" : [ {
+            "type" : "text",
+            "text" : "重設為預設",
+            "size" : "sm",
+            "color" : "#2C3E50",
+            "weight" : "bold"
+          }, {
+            "type" : "text",
+            "text" : "恢復為 10、3、到號",
+            "size" : "xs",
+            "color" : "#8A9499",
+            "wrap" : true
+          } ]
         } ],
         "spacing" : "md",
         "paddingAll" : "16px"
+      },
+      "footer" : {
+        "type" : "box",
+        "layout" : "horizontal",
+        "contents" : [ {
+          "type" : "button",
+          "flex" : 1,
+          "color" : "#2E86C1",
+          "style" : "primary",
+          "action" : {
+            "type" : "postback",
+            "label" : "自訂門檻",
+            "data" : "action=custom-thresholds",
+            "inputOption" : "openKeyboard",
+            "fillInText" : "設定門檻 "
+          },
+          "height" : "sm"
+        }, {
+          "type" : "button",
+          "flex" : 1,
+          "style" : "secondary",
+          "action" : {
+            "type" : "message",
+            "label" : "重設為預設",
+            "text" : "重設門檻"
+          },
+          "height" : "sm"
+        } ],
+        "spacing" : "sm",
+        "paddingAll" : "12px",
+        "paddingTop" : "0px"
       }
     }
   } ]

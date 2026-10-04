@@ -58,13 +58,14 @@ public class CommandDispatcher {
             case Command.Rooms ignored -> List.of(messageFactory.rooms(roomOptions(), "診間看診進度"));
             case Command.SetThresholds set -> List.of(setThresholds(lineUserId, set.thresholds()));
             case Command.ShowThresholds ignored -> List.of(
-                    messageFactory.thresholds("通知門檻", trackingService.thresholds(lineUserId)));
+                    messageFactory.thresholdSettings("通知設定", trackingService.thresholdSettings(lineUserId)));
             case Command.ResetThresholds ignored -> List.of(
-                    messageFactory.thresholds("已恢復預設門檻", trackingService.resetThresholds(lineUserId)));
+                    messageFactory.thresholdSettings("已恢復預設門檻", trackingService.resetThresholds(lineUserId)));
             case Command.Help ignored -> List.of(messageFactory.help());
             case Command.Invalid invalid -> List.of(messageFactory.notice(Tone.NEUTRAL, "指令格式錯誤",
                     invalid.message(), FlexParts.messageButton("使用說明", "幫助", false, Tone.INFO)));
             case Command.Unknown ignored -> List.of(messageFactory.unknownCommand());
+            case Command.NoReply ignored -> List.of();
         };
     }
 
@@ -131,7 +132,8 @@ public class CommandDispatcher {
 
     private Message setThresholds(String lineUserId, List<Integer> thresholds) {
         try {
-            return messageFactory.thresholds("✅ 通知門檻已更新", trackingService.updateThresholds(lineUserId, thresholds));
+            return messageFactory.thresholdSettings("✅ 通知門檻已更新",
+                    trackingService.updateThresholds(lineUserId, thresholds));
         } catch (IllegalArgumentException e) {
             return messageFactory.notice(Tone.ALERT, "門檻設定錯誤", e.getMessage() + "\n" + CommandParser.THRESHOLD_USAGE);
         }

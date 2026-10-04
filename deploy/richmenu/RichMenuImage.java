@@ -28,6 +28,12 @@ public class RichMenuImage {
     static final int HALF = 843;
     static final int GAP = 18;
 
+    /** 齒輪（通知設定）點選區：幫助區塊右下角，寬 1/3、高 1/4，需與 richmenu.json 一致 */
+    static final int GEAR_X = 2292;
+    static final int GEAR_Y = 1475;
+    static final int GEAR_W = 208;
+    static final int GEAR_H = 211;
+
     static final Color BACKGROUND = new Color(0xEEF3F6);
     static final Color PRIMARY = new Color(0x2E86C1);
     static final Color PRIMARY_DARK = new Color(0x1F618D);
@@ -53,6 +59,7 @@ public class RichMenuImage {
         for (int i = 0; i < labels.size(); i++) {
             drawSmallButton(g, fontName, i * cellWidth, HALF, cellWidth, HALF, labels.get(i), i);
         }
+        drawGearButton(g);
         g.dispose();
 
         File output = new File(args.length > 0 ? args[0] : "richmenu.png");
@@ -106,6 +113,40 @@ public class RichMenuImage {
         g.setFont(new Font(fontName, Font.BOLD, 104));
         FontMetrics metrics = g.getFontMetrics();
         g.drawString(label, (int) (cx - metrics.stringWidth(label) / 2.0), (int) (y + h * 0.82));
+    }
+
+    /** 右下角的齒輪按鈕：淺色圓底＋齒輪圖示，不加文字 */
+    static void drawGearButton(Graphics2D g) {
+        double cx = GEAR_X + GEAR_W / 2.0 - GAP / 2.0;
+        double cy = GEAR_Y + GEAR_H / 2.0 - GAP / 2.0;
+        double r = 78;
+        g.setColor(BACKGROUND);
+        g.fill(new Ellipse2D.Double(cx - r, cy - r, r * 2, r * 2));
+        g.setColor(SUBTLE);
+        drawGear(g, cx, cy, 52);
+    }
+
+    static void drawGear(Graphics2D g, double cx, double cy, double radius) {
+        int teeth = 8;
+        double toothDepth = radius * 0.28;
+        Path2D gear = new Path2D.Double();
+        int points = teeth * 4;
+        for (int i = 0; i < points; i++) {
+            double angle = Math.PI * 2 * i / points - Math.PI / 2;
+            double r = (i % 4 == 0 || i % 4 == 1) ? radius : radius - toothDepth;
+            double x = cx + Math.cos(angle) * r;
+            double y = cy + Math.sin(angle) * r;
+            if (i == 0) {
+                gear.moveTo(x, y);
+            } else {
+                gear.lineTo(x, y);
+            }
+        }
+        gear.closePath();
+        double hole = radius * 0.36;
+        gear.append(new Ellipse2D.Double(cx - hole, cy - hole, hole * 2, hole * 2), false);
+        gear.setWindingRule(Path2D.WIND_EVEN_ODD);
+        g.fill(gear);
     }
 
     static void drawBell(Graphics2D g, double cx, double cy, double size) {
