@@ -1,6 +1,7 @@
 package com.everythingcanbe.linebotclinicnotifysystem.line;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,13 +10,17 @@ import org.springframework.stereotype.Component;
 
 import com.linecorp.bot.messaging.model.FlexBox;
 import com.linecorp.bot.messaging.model.FlexBubble;
+import com.linecorp.bot.messaging.model.FlexButton;
 import com.linecorp.bot.messaging.model.FlexComponent;
 import com.linecorp.bot.messaging.model.FlexMessage;
+import com.linecorp.bot.messaging.model.FlexSeparator;
 import com.linecorp.bot.messaging.model.FlexText;
 import com.linecorp.bot.messaging.model.Message;
+import com.linecorp.bot.messaging.model.PostbackAction;
 import com.linecorp.bot.messaging.model.TextMessage;
 
 import com.everythingcanbe.linebotclinicnotifysystem.config.ClinicProperties;
+import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomNames;
 import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomStatus;
 
 /**
@@ -96,6 +101,57 @@ public class MessageFactory {
         String altText = "%s 目前 %d 號，您是 %d 號，剩餘 %d 位"
                 .formatted(status.roomName(), status.currentNumber(), targetNumber, Math.max(remaining, 0));
         return card(altText, clinicProperties.name(), COLOR_INFO, rows);
+    }
+
+    /**
+     * 診間選擇卡片：看診中的診間附「追蹤」按鈕（Postback，點選後自動開啟鍵盤以輸入號碼）。
+     */
+    public Message roomPicker(List<RoomOption> rooms) {
+        List<FlexComponent> rows = new ArrayList<>();
+        for (RoomOption room : rooms) {
+            if (!rows.isEmpty()) {
+                rows.add(new FlexSeparator("md", null));
+            }
+            rows.add(roomOption(room));
+        }
+        rows.add(new FlexText.Builder().text("選擇診間後，請直接輸入您的看診號碼").size("xs").color(COLOR_LABEL)
+                .margin("lg").wrap(true).build());
+        return card("請選擇要追蹤的診間", "請選擇要追蹤的診間", COLOR_INFO, rows);
+    }
+
+    private static FlexComponent roomOption(RoomOption room) {
+        String roomName = RoomNames.of(room.roomId());
+        Optional<RoomStatus> status = room.status();
+        boolean inSession = status.map(RoomStatus::inSession).orElse(false);
+        String current = status.isEmpty() ? "暫時無法取得"
+                : inSession ? "目前 " + status.get().currentNumber() + " 號" : "未看診";
+
+        List<FlexComponent> contents = new ArrayList<>();
+        contents.add(new FlexBox.Builder(FlexBox.Layout.BASELINE, List.of(
+                new FlexText.Builder().text(roomName).size("lg").weight(FlexText.Weight.BOLD).flex(2).build(),
+                new FlexText.Builder().text(current).size("md").align(FlexText.Align.END).flex(3)
+                        .weight(inSession ? FlexText.Weight.BOLD : FlexText.Weight.REGULAR)
+                        .color(inSession ? COLOR_PROGRESS : COLOR_LABEL).build()))
+                .build());
+        String info = status.map(s -> String.join(" ", nonBlank(s.department(), inSession ? s.doctorName() : null)))
+                .orElse("");
+        if (!info.isEmpty()) {
+            contents.add(new FlexText.Builder().text(info).size("sm").color(COLOR_LABEL).build());
+        }
+        if (inSession) {
+            PostbackAction action = new PostbackAction("追蹤" + roomName, PostbackActions.selectRoom(room.roomId()),
+                    "追蹤" + roomName, null, PostbackAction.InputOption.OPEN_KEYBOARD, null);
+            contents.add(new FlexButton.Builder(action).style(FlexButton.Style.PRIMARY).color(COLOR_INFO)
+                    .height(FlexButton.Height.SM).margin("sm").build());
+        }
+        return new FlexBox.Builder(FlexBox.Layout.VERTICAL, contents).spacing("xs").build();
+    }
+
+    private static List<String> nonBlank(String... values) {
+        return Arrays.stream(values).filter(v -> v != null && !v.isBlank()).toList();
+    }
+
+    public record RoomOption(int roomId, Optional<RoomStatus> status) {
     }
 
     public static String formatThresholds(List<Integer> thresholds) {

@@ -2,7 +2,9 @@ package com.everythingcanbe.linebotclinicnotifysystem.line;
 
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +24,9 @@ public class CommandParser {
 
     private static final Pattern TRACK = Pattern.compile(
             "^追蹤\\s*([0-9一二三四五六七八九十]+)(?:\\s*診\\s*|\\s+)(\\d+)\\s*號?$");
+    private static final Pattern TRACK_ROOM_ONLY = Pattern.compile(
+            "^追蹤\\s*([0-9]{1,2}|[一二三四五六七八九十]{1,2})\\s*診?$");
+    private static final Pattern NUMBER_ONLY = Pattern.compile("^(\\d{1,4})\\s*號?$");
     private static final Pattern SET_THRESHOLDS = Pattern.compile("^設定門檻\\s*(.*)$");
     private static final Pattern THRESHOLD_SEPARATOR = Pattern.compile("[\\s,，、]+");
 
@@ -53,6 +58,13 @@ public class CommandParser {
         if (HELP.contains(text.toLowerCase())) {
             return new Command.Help();
         }
+        Matcher number = NUMBER_ONLY.matcher(text);
+        if (number.matches()) {
+            return new Command.Number(Integer.parseInt(number.group(1)));
+        }
+        if (text.equals("追蹤")) {
+            return new Command.ChooseRoom();
+        }
         if (text.startsWith("追蹤")) {
             return parseTrack(text);
         }
@@ -63,7 +75,32 @@ public class CommandParser {
         return new Command.Unknown(text);
     }
 
+    /**
+     * 解析 Postback 資料（例：{@code action=select-room&room=2}）。
+     */
+    public Command parsePostback(String data) {
+        Map<String, String> params = new HashMap<>();
+        for (String pair : (data == null ? "" : data).split("&")) {
+            int index = pair.indexOf('=');
+            if (index > 0) {
+                params.put(pair.substring(0, index), pair.substring(index + 1));
+            }
+        }
+        if (PostbackActions.SELECT_ROOM.equals(params.get("action"))) {
+            Integer roomId = RoomNames.parse(params.get("room"));
+            if (roomId != null) {
+                return new Command.SelectRoom(roomId);
+            }
+        }
+        return new Command.Unknown(data);
+    }
+
     private Command parseTrack(String text) {
+        Matcher roomOnly = TRACK_ROOM_ONLY.matcher(text);
+        if (roomOnly.matches()) {
+            Integer roomId = RoomNames.parse(roomOnly.group(1));
+            return roomId == null ? new Command.Invalid(TRACK_USAGE) : new Command.SelectRoom(roomId);
+        }
         Matcher matcher = TRACK.matcher(text);
         if (!matcher.matches()) {
             return new Command.Invalid(TRACK_USAGE);

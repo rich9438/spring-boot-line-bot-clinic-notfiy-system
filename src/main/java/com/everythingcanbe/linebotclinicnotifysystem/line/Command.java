@@ -10,6 +10,18 @@ public sealed interface Command {
     record Track(int roomId, int number) implements Command {
     }
 
+    /** 「追蹤」：顯示診間選擇卡片 */
+    record ChooseRoom() implements Command {
+    }
+
+    /** 已選定診間，等待使用者輸入號碼（「追蹤 2診」或點選診間卡片按鈕） */
+    record SelectRoom(int roomId) implements Command {
+    }
+
+    /** 只輸入號碼（例如「56」），搭配先前選定的診間 */
+    record Number(int number) implements Command {
+    }
+
     record Status() implements Command {
     }
 

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.linecorp.bot.messaging.model.Message;
+import com.linecorp.bot.messaging.model.TextMessage;
 
 import com.everythingcanbe.linebotclinicnotifysystem.monitor.RoomStatusQueryService;
 import com.everythingcanbe.linebotclinicnotifysystem.provider.RoomNames;
@@ -26,7 +27,8 @@ public class CommandDispatcher {
 
     static final String HELP_TEXT = """
             📋 支援的指令
-            ・追蹤 2診 56號：開始追蹤（新的追蹤會取代舊的）
+            ・追蹤：選擇診間後輸入號碼即可開始追蹤
+            ・追蹤 2診 56號：直接開始追蹤（新的追蹤會取代舊的）
             ・目前狀態：查看追蹤進度與預估時間
             ・取消追蹤：停止追蹤
             ・診間：查看所有診間目前號碼
@@ -35,22 +37,34 @@ public class CommandDispatcher {
             ・重設門檻：恢復預設門檻
             ・幫助：顯示本說明""";
 
-    static final String NO_TRACKING_TEXT = "目前沒有追蹤中的號碼\n輸入「追蹤 2診 56號」開始追蹤";
+    static final String NO_TRACKING_TEXT = "目前沒有追蹤中的號碼\n點選選單的「追蹤」或輸入「追蹤 2診 56號」開始追蹤";
+    static final String NO_PENDING_ROOM_TEXT = "請先點選選單的「追蹤」選擇診間\n或直接輸入「追蹤 2診 56號」";
 
     private final TrackingService trackingService;
     private final RoomStatusQueryService roomStatusQuery;
     private final MessageFactory messageFactory;
+    private final PendingTrackStore pendingTrackStore;
 
     public CommandDispatcher(TrackingService trackingService, RoomStatusQueryService roomStatusQuery,
-            MessageFactory messageFactory) {
+            MessageFactory messageFactory, PendingTrackStore pendingTrackStore) {
         this.trackingService = trackingService;
         this.roomStatusQuery = roomStatusQuery;
         this.messageFactory = messageFactory;
+        this.pendingTrackStore = pendingTrackStore;
     }
 
     public List<Message> dispatch(String lineUserId, Command command) {
+        // 選診間後若改下其他指令，放棄等待中的號碼輸入
+        if (!(command instanceof Command.Number)) {
+            pendingTrackStore.clear(lineUserId);
+        }
         Message reply = switch (command) {
             case Command.Track track -> track(lineUserId, track);
+            case Command.ChooseRoom ignored -> chooseRoom();
+            case Command.SelectRoom select -> selectRoom(lineUserId, select.roomId());
+            case Command.Number number -> pendingTrackStore.take(lineUserId)
+                    .map(roomId -> track(lineUserId, new Command.Track(roomId, number.number())))
+                    .orElseGet(() -> text(NO_PENDING_ROOM_TEXT));
             case Command.Status ignored -> status(lineUserId);
             case Command.Cancel ignored -> text(trackingService.cancel(lineUserId) ? "已取消追蹤" : NO_TRACKING_TEXT);
             case Command.Rooms ignored -> rooms();
@@ -69,10 +83,7 @@ public class CommandDispatcher {
 
     private Message track(String lineUserId, Command.Track track) {
         if (!roomStatusQuery.isConfiguredRoom(track.roomId())) {
-            String rooms = roomStatusQuery.configuredRooms().stream()
-                    .map(RoomNames::of)
-                    .collect(Collectors.joining("、"));
-            return text("目前只支援：" + rooms);
+            return text("目前只支援：" + configuredRoomNames());
         }
         if (track.number() < 1 || track.number() > MAX_NUMBER) {
             return text("號碼需介於 1～" + MAX_NUMBER);
@@ -90,6 +101,40 @@ public class CommandDispatcher {
                         : roomName + "目前 " + current + " 號，" + reached.targetNumber() + " 號已過號");
             }
         };
+    }
+
+    private Message chooseRoom() {
+        List<MessageFactory.RoomOption> rooms = roomStatusQuery.configuredRooms().stream()
+                .map(roomId -> new MessageFactory.RoomOption(roomId, roomStatusQuery.current(roomId)))
+                .toList();
+        boolean anyInSession = rooms.stream()
+                .anyMatch(room -> room.status().map(RoomStatus::inSession).orElse(false));
+        if (!anyInSession) {
+            return text("目前沒有看診中的診間，請於看診時段再試\n" + rooms().text());
+        }
+        return messageFactory.roomPicker(rooms);
+    }
+
+    private Message selectRoom(String lineUserId, int roomId) {
+        String roomName = RoomNames.of(roomId);
+        if (!roomStatusQuery.isConfiguredRoom(roomId)) {
+            return text("目前只支援：" + configuredRoomNames());
+        }
+        Optional<RoomStatus> status = roomStatusQuery.current(roomId);
+        if (status.isEmpty()) {
+            return text("暫時無法取得" + roomName + "資料，請稍後再試");
+        }
+        if (!status.get().inSession()) {
+            return text(roomName + "目前未看診，無法追蹤");
+        }
+        pendingTrackStore.put(lineUserId, roomId);
+        return text(roomName + "目前 " + status.get().currentNumber() + " 號\n請輸入您的看診號碼（例如：56）");
+    }
+
+    private String configuredRoomNames() {
+        return roomStatusQuery.configuredRooms().stream()
+                .map(RoomNames::of)
+                .collect(Collectors.joining("、"));
     }
 
     private static String startedText(StartTrackingResult.Started started) {
@@ -124,11 +169,11 @@ public class CommandDispatcher {
         return messageFactory.trackingStatus(status, view.targetNumber(), view.etaMinutes());
     }
 
-    private Message rooms() {
+    private TextMessage rooms() {
         String text = roomStatusQuery.configuredRooms().stream()
                 .map(roomId -> roomLine(roomId, roomStatusQuery.current(roomId)))
                 .collect(Collectors.joining("\n"));
-        return text(text);
+        return new TextMessage(text);
     }
 
     private static String roomLine(int roomId, Optional<RoomStatus> status) {

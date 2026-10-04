@@ -24,9 +24,34 @@ class CommandParserTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"追蹤", "追蹤 abc", "追蹤 2診", "追蹤 256", "追蹤 2診 12345號"})
+    @ValueSource(strings = {"追蹤 abc", "追蹤 256", "追蹤 2診 12345號"})
     void invalidTrackShowsUsage(String text) {
         assertThat(parser.parse(text)).isEqualTo(new Command.Invalid(CommandParser.TRACK_USAGE));
+    }
+
+    @Test
+    void bareTrackOpensRoomPicker() {
+        assertThat(parser.parse("追蹤")).isInstanceOf(Command.ChooseRoom.class);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"追蹤 2診", "追蹤 二診", "追蹤2", "追蹤 ２診"})
+    void trackWithRoomOnlySelectsRoom(String text) {
+        assertThat(parser.parse(text)).isEqualTo(new Command.SelectRoom(2));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"56", "56號", " ５６ "})
+    void numberOnly(String text) {
+        assertThat(parser.parse(text)).isEqualTo(new Command.Number(56));
+    }
+
+    @Test
+    void parsesPostback() {
+        assertThat(parser.parsePostback(PostbackActions.selectRoom(3))).isEqualTo(new Command.SelectRoom(3));
+        assertThat(parser.parsePostback("action=unknown")).isInstanceOf(Command.Unknown.class);
+        assertThat(parser.parsePostback("action=select-room&room=x")).isInstanceOf(Command.Unknown.class);
+        assertThat(parser.parsePostback(null)).isInstanceOf(Command.Unknown.class);
     }
 
     @Test

@@ -11,6 +11,7 @@ import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler;
 import com.linecorp.bot.webhook.model.Event;
 import com.linecorp.bot.webhook.model.FollowEvent;
 import com.linecorp.bot.webhook.model.MessageEvent;
+import com.linecorp.bot.webhook.model.PostbackEvent;
 import com.linecorp.bot.webhook.model.TextMessageContent;
 import com.linecorp.bot.webhook.model.UnfollowEvent;
 import com.linecorp.bot.webhook.model.UserSource;
@@ -52,6 +53,16 @@ public class LineWebhookHandler {
         }
         Command command = commandParser.parse(content.text());
         log.info("Command from {}: {}", source.userId(), command);
+        return commandDispatcher.dispatch(source.userId(), command);
+    }
+
+    @EventMapping
+    public List<Message> handlePostback(PostbackEvent event) {
+        if (!(event.source() instanceof UserSource source)) {
+            return List.of();
+        }
+        Command command = commandParser.parsePostback(event.postback().data());
+        log.info("Postback from {}: {}", source.userId(), command);
         return commandDispatcher.dispatch(source.userId(), command);
     }
 

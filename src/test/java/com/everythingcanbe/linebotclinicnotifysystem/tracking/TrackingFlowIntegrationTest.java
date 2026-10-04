@@ -125,6 +125,46 @@ class TrackingFlowIntegrationTest {
     }
 
     @Test
+    void interactiveTrackingByChoosingRoomThenNumber() {
+        monitor.onStatus(room(1, 35));
+        monitor.onStatus(room(2, 46));
+        monitor.onStatus(notInSession(3));
+
+        List<Message> picker = dispatcher.dispatch(USER, new Command.ChooseRoom());
+        assertThat(picker).singleElement().isInstanceOf(FlexMessage.class);
+
+        assertThat(replyText(new Command.SelectRoom(2))).contains("二診目前 46 號", "請輸入您的看診號碼");
+        assertThat(replyText(new Command.Number(56))).contains("已開始追蹤", "二診", "剩餘 10 位");
+        assertThat(trackingJobRepository.findAll()).singleElement()
+                .extracting(TrackingJob::getRoomId, TrackingJob::getTargetNumber)
+                .containsExactly(2, 56);
+
+        // 選定的診間只能用一次
+        assertThat(replyText(new Command.Number(57))).contains("請先點選選單的「追蹤」");
+    }
+
+    @Test
+    void otherCommandCancelsPendingRoomSelection() {
+        monitor.onStatus(room(2, 46));
+
+        replyText(new Command.SelectRoom(2));
+        replyText(new Command.Rooms());
+
+        assertThat(replyText(new Command.Number(56))).contains("請先點選選單的「追蹤」");
+        assertThat(trackingJobRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    void roomPickerFallsBackToTextWhenNoRoomInSession() {
+        monitor.onStatus(notInSession(1));
+        monitor.onStatus(notInSession(2));
+        monitor.onStatus(notInSession(3));
+
+        assertThat(replyText(new Command.ChooseRoom())).contains("目前沒有看診中的診間");
+        assertThat(replyText(new Command.SelectRoom(2))).contains("未看診");
+    }
+
+    @Test
     void skippedNumberIsReportedAsMissed() {
         monitor.onStatus(room(2, 50));
         replyText(new Command.Track(2, 52));

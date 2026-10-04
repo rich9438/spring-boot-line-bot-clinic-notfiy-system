@@ -70,6 +70,29 @@ class LineWebhookIntegrationTest {
     }
 
     @Test
+    void postbackSelectRoomIsDispatched() throws Exception {
+        when(messagingApiClient.replyMessage(any()))
+                .thenReturn(CompletableFuture.completedFuture(new Result<>(null, null, null)));
+
+        String body = """
+                {"destination":"Uxxxx","events":[{"type":"postback","mode":"active","timestamp":1759470000000,
+                "webhookEventId":"01H001","deliveryContext":{"isRedelivery":false},
+                "source":{"type":"user","userId":"U1"},"replyToken":"reply-token",
+                "postback":{"data":"action=select-room&room=2"}}]}""";
+        mockMvc.perform(post("/callback")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-Line-Signature", sign(body))
+                        .content(body))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<ReplyMessageRequest> captor = ArgumentCaptor.forClass(ReplyMessageRequest.class);
+        verify(messagingApiClient, timeout(2000)).replyMessage(captor.capture());
+        // 資料來源以 mock 取代（無資料），驗證 postback 已被解析為「選擇二診」並回覆
+        assertThat(captor.getValue().messages()).singleElement()
+                .extracting(m -> ((TextMessage) m).text()).asString().contains("二診");
+    }
+
+    @Test
     void groupMessageIsIgnored() throws Exception {
         String body = webhookBody("幫助", "group");
         mockMvc.perform(post("/callback")
